@@ -1,0 +1,9 @@
+server:
+  port: 11000
+
+spring:
+  application:
+    name: ueh-organization
+  profiles:
+    active:
+      default

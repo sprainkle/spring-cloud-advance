@@ -19,6 +19,7 @@
     <modules>
         <module>ueh-licence</module>
         <module>ueh-organization</module>
+        <module>ueh-discovery</module>
     </modules>
 
     <dependencies>

@@ -1,0 +1,9 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          binder: rabbit

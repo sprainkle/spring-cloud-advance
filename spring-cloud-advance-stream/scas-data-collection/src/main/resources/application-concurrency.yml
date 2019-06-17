@@ -1,0 +1,18 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          binder: rabbit
+
+        packetUplinkInput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          group: ${spring.application.name}
+          binder: rabbit
+          consumer:
+            concurrency: 10 # 初始/最少/空闲时 消费者数量。默认1
+

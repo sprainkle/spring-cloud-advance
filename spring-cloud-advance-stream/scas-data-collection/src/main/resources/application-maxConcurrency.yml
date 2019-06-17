@@ -1,0 +1,23 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          binder: rabbit
+
+        packetUplinkInput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          group: ${spring.application.name}
+          binder: rabbit
+          consumer:
+            concurrency: 3 # 初始/最少/空闲时 消费者数量。默认1
+
+      rabbit:
+        bindings:
+          packetUplinkInput:
+            consumer:
+              maxConcurrency: 10 # 默认：1。queue的消费者的最大数量。当前消费者数量不足以及时消费消息时, 会动态增加消费者数量, 直到到达最大数量, 即该配置的值.

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: scas-data-collection
+  profiles:
+    active:
+      default
+
+  cloud:
+    stream:
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest

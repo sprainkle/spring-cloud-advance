@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.sprainkle</groupId>
+		<artifactId>spring-cloud-advance-stream</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>scas-data-collection</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>scas-data-collection</name>
+	<description>spring cloud advance stream data collection service</description>
+
+	<dependencies>
+		<!--<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>${mybatis.plus.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>com.sprainkle</groupId>
+            <artifactId>spring-cloud-advance-common-core</artifactId>
+            <version>${spring-cloud-advance.version}</version>
+        </dependency>
+
+		<dependency>
+			<groupId>com.sprainkle</groupId>
+			<artifactId>spring-cloud-advance-proto</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

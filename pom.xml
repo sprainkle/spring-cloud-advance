@@ -37,6 +37,7 @@
         <module>spring-cloud-advance-common</module>
         <module>spring-cloud-advance-proto</module>
         <module>unified-exception-handling</module>
+        <module>spring-cloud-advance-stream</module>
     </modules>
 
     <dependencies>

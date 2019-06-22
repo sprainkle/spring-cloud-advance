@@ -1,0 +1,23 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          binder: rabbit
+
+        packetUplinkInput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          group: ${spring.application.name}
+          binder: rabbit
+          consumer:
+            concurrency: 1 # 初始/最少/空闲时 消费者数量。默认1
+
+      rabbit:
+        bindings:
+          packetUplinkInput:
+            consumer:
+              prefetch: 5 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。

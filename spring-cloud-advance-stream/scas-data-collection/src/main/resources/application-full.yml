@@ -49,7 +49,7 @@ spring:
               expires: 10000000 # 当queue空闲多长时间后会被删除。
               bindingRoutingKey: '#' # 将queue绑定到exchange时使用的routing key。默认'#'
               queueNameGroupOnly: false # 默认为false。当为true时，从queue名称与属性group的值相等的队列消费消息，如果不是则为destination.group。该属性还可以用在从已存在的queue消费消息。
-              prefetch: 1 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。这个需要多注意, 因为会破坏队列的顺序性。不过一般都设置1。
+              prefetch: 1 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。
               ttl: 100000 # 默认不做限制，即无限。消息在队列中最大的存活时间。当消息滞留超过ttl时，会被当成消费失败消息，即会被转发到死信队列或丢弃
               txSize: 1 # 感觉像是批量确认的意思. 原文: The number of deliveries between acks.
               declareExchange: true # 是否声明目标exchange。默认true

@@ -20,4 +20,5 @@ spring:
         bindings:
           packetUplinkInput:
             consumer:
+              maxConcurrency: 1
               prefetch: 5 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。

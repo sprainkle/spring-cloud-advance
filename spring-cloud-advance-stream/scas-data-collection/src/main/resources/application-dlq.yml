@@ -1,0 +1,34 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkDlxTopic
+          content-type: application/json
+          binder: rabbit
+
+        packetUplinkInput:
+          destination: packetUplinkDlxTopic
+          content-type: application/json
+          group: ${spring.application.name}.dlx
+          binder: rabbit
+      rabbit:
+        bindings:
+          packetUplinkInput:
+            consumer:
+              ttl: 20000 # 默认不做限制，即无限。消息在队列中最大的存活时间。当消息滞留超过ttl时，会被当成消费失败消息，即会被转发到死信队列或丢弃.
+              # DLQ相关
+              autoBindDlq: true # 是否自动声明死信队列（DLQ）并将其绑定到死信交换机（DLX）。默认是false。
+              deadLetterQueueName: 'packetUplinkDlxTopic.scas-data-collection.dlx.dlq' # 默认prefix + destination + group + .dlq。DLQ的名称。
+              deadLetterExchange: 'DLX' # 默认prefix + DLX。DLX的名称
+              deadLetterRoutingKey: 'packetUplinkDlxTopic.scas-data-collection.dlx' # 默认destination + group
+              dlqExpires: 30000 # 队列所有 customer 下线, 且在过期时间段内 queue 没有被重新声明, 多久之后队列会被销毁, 注意, 不管队列内有没有消息. 默认不设置.
+              dlqLazy: false # 是否声明为惰性队列（Lazy Queue）.默认false
+              dlqMaxLength: 100000 # 队列中消息数量的最大限制. 默认不限制
+              dlqMaxLengthBytes: 100000000 # 队列所有消息总字节的最大限制. 默认不限制
+              dlqMaxPriority: 255 # 队列的消息可以设置的最大优先级. 默认不设置
+              dlqTtl: 1000000 # 队列的消息的过期时间. 默认不限制
+              republishToDlq: true # 默认false。当为true时，死信队列接收到的消息的headers会更加丰富，多了异常信息和堆栈跟踪。
+              republishDeliveryMode: DeliveryMode.PERSISTENT # 默认DeliveryMode.PERSISTENT（持久化）。当republishToDlq为true时，转发的消息的delivery mode
+

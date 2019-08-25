@@ -1,0 +1,25 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkDlxTopic
+          content-type: application/json
+          binder: rabbit
+
+        packetUplinkInput:
+          destination: packetUplinkDlxTopic
+          content-type: application/json
+          group: ${spring.application.name}.dlx
+          binder: rabbit
+          consumer:
+            maxAttempts: 1 # 当消息处理失败时，处理该消息的最大次数（处理失败后，发布者会重新发）。默认3
+      rabbit:
+        bindings:
+          packetUplinkInput:
+            consumer:
+              ttl: 20000 # 默认不做限制，即无限。消息在队列中最大的存活时间。当消息滞留超过ttl时，会被当成消费失败消息，即会被转发到死信队列或丢弃.
+              # DLQ相关
+              autoBindDlq: true # 是否自动声明死信队列（DLQ）并将其绑定到死信交换机（DLX）。默认是false。
+              republishToDlq: true  # 默认false。如果定义了DLQ，当消费失败的消息重试 次数耗尽后，会将消息路由到该DLQ。当为true时，死信队列接收到的消息的headers会更加丰富，多了异常信息和堆栈跟踪。

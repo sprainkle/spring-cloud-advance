@@ -10,7 +10,7 @@
 	<artifactId>ueh-organization</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ueh-organization</name>
-	<description>unified exception handling organization service</description>
+	<description>organization service</description>
 
 	<dependencies>
 		<dependency>

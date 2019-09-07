@@ -10,7 +10,7 @@
     <artifactId>ueh-discovery</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ueh-discovery</name>
-    <description>unified exception handling service discovery</description>
+    <description>service discovery</description>
 
     <dependencies>
         <dependency>

@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.sprainkle.spring.cloud.advance.common.core.exception.handler.UnifiedExceptionHandler,\
   com.sprainkle.spring.cloud.advance.common.core.i18n.UnifiedMessageSource,\
-  com.sprainkle.spring.cloud.advance.common.core.config.JacksonConfiguration
+  com.sprainkle.spring.cloud.advance.common.core.config.JacksonConfiguration,\
+  com.sprainkle.spring.cloud.advance.common.core.operator.OperatorAutoConfiguration
 

@@ -11,6 +11,7 @@
     <groupId>com.sprainkle</groupId>
     <artifactId>spring-cloud-advance</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>spring-cloud-advance</name>
     <description>spring cloud advance</description>
 
@@ -38,6 +39,7 @@
         <module>spring-cloud-advance-proto</module>
         <module>unified-exception-handling</module>
         <module>spring-cloud-advance-stream</module>
+        <module>spring-cloud-advance-skywalking</module>
     </modules>
 
     <dependencies>
@@ -96,4 +98,17 @@
         </plugins>
     </build>
 
+    <!-- 使用aliyun镜像 -->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+        </repository>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
 </project>

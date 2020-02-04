@@ -1,0 +1,29 @@
+#默认端口号为8761
+server:
+  port: 8761
+
+eureka:
+  client:
+    #由于该应用为注册中心，所以设置为false，代表不向注册中心注册自己
+    registerWithEureka: false
+    #由于注册中心的职责就是维护服务实例，它并不需要去检索服务，所以也设置为false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    #关闭自我保护模式。自我保护模式是指，出现网络分区、eureka在短时间内丢失过多客户端时，会进入自我保护模式。
+    #自我保护：一个服务长时间没有发送心跳包，eureka也不会将其删除，默认为true。
+    enable-self-preservation: false
+    #在Eureka服务器获取不到集群里对等服务器上的实例时，需要等待的时间，单位为毫秒，默认为1000 * 60 * 5
+    wait-time-in-ms-when-sync-empty: 0
+    # 默认30s. eureka server刷新readCacheMap的时间，注意，client读取的是readCacheMap，
+    # 这个时间决定了多久会把readWriteCacheMap的缓存更新到readCacheMap上
+    response-cache-update-interval-ms: 3000
+    # 默认60s. 启用主动失效，并且每次主动失效检测间隔为5s.
+    eviction-interval-timer-in-ms: 5000
+  instance:
+    # 默认90s. 服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除.
+    # 注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，这个配置一般为服务刷新时间配置的三倍
+    lease-expiration-duration-in-seconds: 15
+    # 默认30s. 服务刷新时间配置，每隔这个时间会主动心跳一次
+    lease-renewal-interval-in-seconds: 5

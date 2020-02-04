@@ -1,0 +1,9 @@
+server:
+  port: 3100
+
+spring:
+  application:
+    name: sca-skywalking-gateway
+  profiles:
+    active:
+      default

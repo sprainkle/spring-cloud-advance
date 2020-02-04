@@ -1,0 +1,47 @@
+
+#服务发现客户端
+eureka:
+  instance:
+    #向Eureka注册时，是否使用IP地址+端口号作为服务实例的唯一标识。推荐设置为true
+    prefer-ip-address: true
+
+  client:
+    #是否将自身的实例信息注册到Eureka服务端
+    register-with-eureka: true
+    #是否拉取并缓存其他服务注册表副本到本地
+    fetch-registry: true
+    # eureka client刷新本地缓存时间
+    registryFetchIntervalSeconds: 5
+    #注册到哪个Eureka服务实例
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  # eureka客户端ribbon刷新时间
+  ServerListRefreshInterval: 5000
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 是否与服务发现组件进行结合，通过 serviceId 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
+          enabled: true
+      routes:
+        # licence 服务
+        - id: sca-skywalking-licence
+          uri: lb://sca-skywalking-licence
+          predicates:
+            - Path=/licence/**
+          filters:
+            # 发送原始头部
+            - PreserveHostHeader
+
+        # organization 服务
+        - id: sca-skywalking-organization
+          uri: lb://sca-skywalking-organization
+          predicates:
+            - Path=/org/**
+          filters:
+            # 发送原始头部
+            - PreserveHostHeader

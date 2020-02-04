@@ -1,0 +1,48 @@
+
+#服务发现客户端
+eureka:
+  instance:
+    #向Eureka注册时，是否使用IP地址+端口号作为服务实例的唯一标识。推荐设置为true
+    prefer-ip-address: true
+
+  client:
+    #是否将自身的实例信息注册到Eureka服务端
+    register-with-eureka: true
+    #是否拉取并缓存其他服务注册表副本到本地
+    fetch-registry: true
+    # eureka client刷新本地缓存时间
+    registryFetchIntervalSeconds: 5
+    #注册到哪个Eureka服务实例
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  # eureka客户端ribbon刷新时间
+  ServerListRefreshInterval: 5000
+
+#数据源的配置
+spring:
+  datasource:
+    platform: h2
+    schema: classpath:schema.sql
+    data: classpath:data.sql
+    driver-class-name: org.h2.Driver
+
+### mybaits-plus配置，修改主键类型，mapper.xml、type 别名等
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  global-config:
+    db-config:
+      # 主键类型
+      id-type: auto
+      # 字段策略
+      field-strategy: not_null
+      # 驼峰下划线转换
+      table-underline: true
+      # 逻辑删除全局值（默认 1、表示已删除）
+      logic-delete-value: 1
+      # 逻辑未删除全局值（默认 0、表示未删除）
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true

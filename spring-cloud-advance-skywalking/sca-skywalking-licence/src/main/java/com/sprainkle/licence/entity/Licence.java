@@ -1,4 +1,4 @@
-package com.sprainkle.ueh.licence.entity;
+package com.sprainkle.licence.entity;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;

@@ -1,0 +1,9 @@
+server:
+  port: 10000
+
+spring:
+  application:
+    name: sca-skywalking-licence
+  profiles:
+    active:
+      default

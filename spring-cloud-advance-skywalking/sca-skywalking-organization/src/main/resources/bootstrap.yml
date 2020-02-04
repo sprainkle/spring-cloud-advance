@@ -1,0 +1,9 @@
+server:
+  port: 11000
+
+spring:
+  application:
+    name: sca-skywalking-organization
+  profiles:
+    active:
+      default

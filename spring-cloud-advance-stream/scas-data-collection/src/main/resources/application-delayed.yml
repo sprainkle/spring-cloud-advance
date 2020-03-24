@@ -1,0 +1,52 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        delayedQueueOutput:
+          destination: delayedQueueTopic
+          content-type: application/json
+          binder: rabbit
+
+        delayedQueueInput:
+          destination: delayedQueueTopic
+          content-type: application/json
+          group: ${spring.application.name}
+          binder: rabbit
+
+      rabbit:
+        bindings:
+          delayedQueueOutput:
+            producer:
+              delayedExchange: true # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange
+
+          delayedQueueInput:
+            consumer:
+              delayedExchange: true # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange
+
+
+
+#spring:
+#  cloud:
+#    stream:
+#      bindings:
+#        closeUnpaidOrderOutput:
+#          destination: closeUnpaidOrderTopic
+#          content-type: application/json
+#          binder: rabbit
+#
+#        closeUnpaidOrderInput:
+#          destination: closeUnpaidOrderTopic
+#          content-type: application/json
+#          group: ${spring.application.name}
+#          binder: rabbit
+#
+#      rabbit:
+#        bindings:
+#          closeUnpaidOrderOutput:
+#            producer:
+#              delayedExchange: true # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange
+#
+#          closeUnpaidOrderInput:
+#            consumer:
+#              delayedExchange: true # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange

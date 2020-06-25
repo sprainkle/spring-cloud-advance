@@ -1,0 +1,35 @@
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        packetUplinkOutput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          binder: rabbit
+
+        waterLevelInput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          group: ${spring.application.name}.waterLevel
+          binder: rabbit
+
+        temperatureInput:
+          destination: packetUplinkTopic
+          content-type: application/json
+          group: ${spring.application.name}.temperature
+          binder: rabbit
+
+      rabbit:
+        bindings:
+          packetUplinkOutput:
+            producer:
+              # 生产者配置RabbitMq的动态路由键
+              routingKeyExpression: headers.type
+
+          waterLevelInput:
+            consumer:
+              bindingRoutingKey: waterLevel # 将queue绑定到exchange时使用的routing key。默认'#'
+          temperatureInput:
+            consumer:
+              bindingRoutingKey: temperature # 将queue绑定到exchange时使用的routing key。默认'#'

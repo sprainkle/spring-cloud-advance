@@ -1,0 +1,28 @@
+
+# 数据源
+spring:
+  application:
+    name: distributed-lock-test
+
+  profiles:
+    active: default
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost/test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false
+
+sca-common:
+  distributed:
+    lock:
+      impl: redis
+      redis:
+        host: 127.0.0.1
+      zoo:
+        # zookeeper服务器地址. 多个时用','分开
+        connectString: "127.0.0.1:2181"
+        # zookeeper的session过期时间. 即锁的过期时间. 可用于全局配置锁的过期时间
+        sessionTimeoutMs: 10000
+        # zookeeper的连接超时时间
+        connectionTimeoutMs: 15000

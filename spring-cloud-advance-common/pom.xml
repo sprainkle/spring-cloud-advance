@@ -10,24 +10,26 @@
 
     <artifactId>spring-cloud-advance-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>spring-cloud-advance-common</name>
     <description>spring cloud advance common</description>
 
+    <properties>
+        <sc-advance-common.version>0.0.1-SNAPSHOT</sc-advance-common.version>
+    </properties>
+
     <modules>
         <module>spring-cloud-advance-common-core</module>
+        <module>spring-cloud-advance-common-lock</module>
     </modules>
 
     <dependencies>
-
+        <!--配置文件处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

@@ -38,7 +38,7 @@ public class DistributionLockAutoConfiguration {
     @ConditionalOnMissingBean
     DistributedLockTemplate distributedLockTemplate(DistributedLockProperties properties, RedissonClient redissonClient)
             throws Exception {
-        if(properties.getImpl().equals("zoo")) {
+        if(StrUtil.equals("zoo", properties.getImpl())) {
             return zooDistributedLockTemplate(properties);
         }
         return redisDistributedLockTemplate(properties, redissonClient);

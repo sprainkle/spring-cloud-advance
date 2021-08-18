@@ -32,7 +32,7 @@ public class DistributedLockTests {
         Consumer<TestItem> consumer = testItem -> {
             Integer stock = testItemService.testPlainLockName(testItem);
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -46,7 +46,7 @@ public class DistributedLockTests {
         Consumer<TestItem> consumer = testItem -> {
             Integer stock = testItemService.testSpel(testItem);
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -69,7 +69,7 @@ public class DistributedLockTests {
             }
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -92,7 +92,7 @@ public class DistributedLockTests {
             }
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -115,7 +115,7 @@ public class DistributedLockTests {
             }
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -131,7 +131,7 @@ public class DistributedLockTests {
             Integer stock = testItemService.testLeaseTime(testItem);
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -147,7 +147,7 @@ public class DistributedLockTests {
             Integer stock = testItemService.testLeaseTimeOversold(testItem);
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }
@@ -163,7 +163,7 @@ public class DistributedLockTests {
             Integer stock = testItemService.testLeaseTimeWithTransactional(testItem);
 
             if (stock >= 0) {
-                System.out.println(Thread.currentThread().getName() + ": reset stock = " + stock);
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
             } else {
                 System.out.println(Thread.currentThread().getName() + ": sold out.");
             }

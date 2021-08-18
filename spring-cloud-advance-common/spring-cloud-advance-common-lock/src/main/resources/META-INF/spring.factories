@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.sprainkle.spring.cloud.advance.common.lock.config.DistributionLockAutoConfiguration

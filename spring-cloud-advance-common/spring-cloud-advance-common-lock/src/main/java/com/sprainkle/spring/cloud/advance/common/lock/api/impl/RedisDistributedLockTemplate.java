@@ -61,7 +61,7 @@ public class RedisDistributedLockTemplate extends AbstractDistributedLockTemplat
             lock.lock(leaseTime, timeUnit);
             return process(callback);
         } finally {
-            if (lock != null && lock.isHeldByCurrentThread()) {
+            if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
             }
         }
@@ -79,20 +79,25 @@ public class RedisDistributedLockTemplate extends AbstractDistributedLockTemplat
                          TimeUnit timeUnit,
                          boolean fairLock) {
         RLock lock = getLock(callback.getLockName(), fairLock);
+        boolean locked = false;
 
         DistributedLockContext context = DistributedLockContextHolder.getContext();
         context.setLock(lock);
 
         try {
-            if (lock.tryLock(waitTime, leaseTime, timeUnit)) {
+            locked = lock.tryLock(waitTime, leaseTime, timeUnit);
+            if (locked) {
                 return process(callback);
             }
-
-            ResponseEnum.LOCK_NOT_YET_HOLD.assertFailWithMsg("尝试获取锁超时, 获取失败.");
         } catch (InterruptedException e) {
             ResponseEnum.LOCK_NOT_YET_HOLD.assertFailWithMsg("无法在指定时间内获得锁", e);
         } finally {
-            if (lock != null && lock.isHeldByCurrentThread()) {
+            // 是否未获得锁
+            if (!locked) {
+                ResponseEnum.LOCK_NOT_YET_HOLD.assertFailWithMsg("尝试获取锁超时, 获取失败.");
+            }
+
+            if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
             } else {
                 log.warn("锁释放失败, 当前线程不是锁的持有者");

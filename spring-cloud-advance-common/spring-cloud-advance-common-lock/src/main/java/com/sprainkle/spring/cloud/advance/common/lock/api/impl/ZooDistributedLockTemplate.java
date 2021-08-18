@@ -170,16 +170,28 @@ public class ZooDistributedLockTemplate extends AbstractDistributedLockTemplate 
 
         checkAvailable();
         InterProcessMutex lock = getLock(client, callback.getLockName());
+        boolean locked = false;
 
         DistributedLockContext context = DistributedLockContextHolder.getContext();
         context.setLock(lock);
 
         try {
-            lock(lock, waitTime, timeUnit);
-            return process(callback);
+            locked = lock.acquire(waitTime, timeUnit);
+            if (locked) {
+                return process(callback);
+            }
+        } catch (Exception e) {
+            ResponseEnum.LOCK_NOT_YET_HOLD.assertFailWithMsg("尝试获取锁失败", e);
         } finally {
+            // 是否未获得过锁
+            if (!locked) {
+                ResponseEnum.LOCK_NOT_YET_HOLD.assertFailWithMsg("尝试获取锁超时, 获取失败.");
+            }
+
             unlock(lock);
         }
+
+        return null;
     }
 
     /**

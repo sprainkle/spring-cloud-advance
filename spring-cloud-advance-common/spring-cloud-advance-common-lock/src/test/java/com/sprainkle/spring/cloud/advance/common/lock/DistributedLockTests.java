@@ -1,6 +1,9 @@
 package com.sprainkle.spring.cloud.advance.common.lock;
 
 import com.sprainkle.spring.cloud.advance.common.lock.api.Action;
+import com.sprainkle.spring.cloud.advance.common.lock.aspect.DistributedLockAspect;
+import com.sprainkle.spring.cloud.advance.common.lock.aspect.TransactionEnhancerAspect;
+import com.sprainkle.spring.cloud.advance.common.lock.config.DistributionLockAutoConfiguration;
 import com.sprainkle.spring.cloud.advance.common.lock.entity.TestItem;
 import com.sprainkle.spring.cloud.advance.common.lock.service.TestItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -161,6 +164,47 @@ public class DistributedLockTests {
         Consumer<TestItem> consumer = testItem -> {
 
             Integer stock = testItemService.testLeaseTimeWithTransactional(testItem);
+
+            if (stock >= 0) {
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
+            } else {
+                System.out.println(Thread.currentThread().getName() + ": sold out.");
+            }
+        };
+
+        commonTest(consumer);
+    }
+
+    /**
+     * 测试 分布式锁 失效的情况
+     * <br><br>
+     *
+     * 需要注释掉 {@link DistributedLockAspect} 实现接口 {@link org.springframework.core.Ordered} 的方法
+     */
+    @Test
+    public void testInoperative() {
+        Consumer<TestItem> consumer = testItem -> {
+
+            Integer stock = testItemService.testInoperative(testItem);
+
+            if (stock >= 0) {
+                System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);
+            } else {
+                System.out.println(Thread.currentThread().getName() + ": sold out.");
+            }
+        };
+
+        commonTest(consumer);
+    }
+
+    /**
+     * 需注释掉 {@link DistributionLockAutoConfiguration} 中对 {@link TransactionEnhancerAspect} 注入的相关代码
+     */
+    @Test
+    public void testRollbackWhenLostTheLock() {
+        Consumer<TestItem> consumer = testItem -> {
+
+            Integer stock = testItemService.testRollbackWhenLostTheLock(testItem);
 
             if (stock >= 0) {
                 System.out.println(Thread.currentThread().getName() + ": rest stock = " + stock);

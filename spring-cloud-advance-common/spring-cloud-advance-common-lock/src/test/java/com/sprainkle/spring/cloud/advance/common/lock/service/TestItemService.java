@@ -258,6 +258,65 @@ public class TestItemService extends ServiceImpl<TestItemMapper, TestItem> {
         return stock;
     }
 
+    @DistributedLock(
+            lockName = "#{#testItem.id}",
+            lockNamePre = "item",
+            checkBefore = "#{#root.target.checkbefore(#testItem)}"
+    )
+    @Transactional(rollbackFor = Throwable.class)
+    public Integer testInoperative(TestItem testItem) {
+        sleep(100L);
+
+        TestItem item = this.getById(testItem.getId());
+        Integer stock = item.getStock();
+        System.out.println(String.format("current thread: %s, current stock: %d", getCurrentThreadName(), item.getStock()));
+
+        if (stock > 0) {
+            stock = stock - 1;
+            item.setStock(stock);
+            this.saveOrUpdate(item);
+        } else {
+            stock = -1;
+        }
+
+        return stock;
+    }
+
+    public void checkbefore(TestItem testItem) {
+        TestItem item = this.getById(testItem.getId());
+        System.out.println(String.format("current thread: %s, check before. stock: %d", getCurrentThreadName(), item.getStock()));
+    }
+
+    @DistributedLock(
+            lockName = "#{#testItem.id}",
+            lockNamePre = "item",
+            checkBefore = "#{#root.target.checkbefore(#testItem)}"
+    )
+    @Transactional(rollbackFor = Throwable.class)
+    public Integer testRollbackWhenLostTheLock(TestItem testItem) {
+
+        TestItem item = this.getById(testItem.getId());
+        Integer stock = item.getStock();
+
+        int ci = i.getAndDecrement();
+        if (ci == 10) {
+            System.out.println(String.format("current thread: %s, got the lock first, now sleep a few seconds.", getCurrentThreadName()));
+            sleep(6000L);
+        }
+
+        System.out.println(String.format("current thread: %s, current stock: %d", getCurrentThreadName(), item.getStock()));
+        if (stock > 0) {
+            stock = stock - 1;
+            item.setStock(stock);
+            this.saveOrUpdate(item);
+        } else {
+            stock = -1;
+        }
+
+        return stock;
+    }
+
+
     private String getCurrentThreadName() {
         return Thread.currentThread().getName();
     }

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Welcome</title>
+</head>
+<body>
+   Welcome <b th:inline="text"> [[${name}]] </b> <br/><br/>
+   <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+   </form>	
+</body>
+</html>	    

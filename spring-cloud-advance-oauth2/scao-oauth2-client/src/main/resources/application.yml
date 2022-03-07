@@ -1,0 +1,12 @@
+
+
+security:
+  oauth2:
+    client:
+      # 需修改 client-id, client-secret, 具体获取方法, 见 readme.md
+      client-id: Client_ID
+      client-secret: Client_secret
+      access-token-uri: https://github.com/login/oauth/access_token
+      user-authorization-uri: https://github.com/login/oauth/authorize
+    resource:
+      userInfoUri: https://api.github.com/user

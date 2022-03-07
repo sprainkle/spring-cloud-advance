@@ -40,6 +40,7 @@
         <module>unified-exception-handling</module>
         <module>spring-cloud-advance-stream</module>
         <module>spring-cloud-advance-skywalking</module>
+        <module>spring-cloud-advance-oauth2</module>
     </modules>
 
     <dependencies>

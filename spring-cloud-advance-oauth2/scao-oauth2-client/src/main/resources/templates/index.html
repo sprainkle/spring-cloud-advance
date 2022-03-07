@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+  <title>Spring Security</title>
+</head>
+<body>
+<h3>
+<a href="/login/github" th:href="@{/hello}" th:if="${#httpServletRequest?.remoteUser != undefined }">
+      Go to Dashboard
+</a>
+<a href="/hello" th:href="@{/login/github}" th:if="${#httpServletRequest?.remoteUser == undefined }">
+      Login with GitHub
+</a>
+</h3>                
+</body>
+</html>

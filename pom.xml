@@ -31,7 +31,7 @@
         <spring-cloud-advance.version>0.0.1-SNAPSHOT</spring-cloud-advance.version>
         <hutool.version>4.5.7</hutool.version>
         <mybatis.plus.version>3.1.0</mybatis.plus.version>
-        <fastjson.version>1.2.49</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <modules>

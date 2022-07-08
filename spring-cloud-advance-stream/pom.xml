@@ -10,6 +10,7 @@
     <artifactId>spring-cloud-advance-stream</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-cloud-advance-stream</name>
+    <packaging>pom</packaging>
     <description>Demo project for Spring Cloud Stream.</description>
 
     <properties>

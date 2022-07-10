@@ -37,55 +37,54 @@ spring:
             instanceCount: -1 # 分片实例数量
 
       rabbit:
-        bindings:
-          default:
-            consumer:
-              prefix: '' # 定义queue和exchange时名称的前缀
-              # queue相关
-              acknowledgeMode: AUTO # 消息的确认模式。有：NONE, MANUAL, AUTO。默认是AUTO。这里的AUTO区别于RabbitMQ的auto_ack，AUTO会根据消息正常消费或抛异常自动选择ack/nack。而NONE才对应auto_ack，MANUAL则为手动确认。
-              bindQueue: true # 是否将queue绑定到目标exchange。默认true
-              durableSubscription: true # queue中的消息是否序列化。只有当设置了group属性才起作用。默认true。
-              exclusive: false # queue是否排外。当为true，有两个作用，一：当连接关闭时connection.close()该队列会自动删除；二：该队列是私有的private，即其它channel强制访问时会报错。
-              expires: 10000000 # 当queue空闲多长时间后会被删除。
-              bindingRoutingKey: '#' # 将queue绑定到exchange时使用的routing key。默认'#'
-              queueNameGroupOnly: false # 默认为false。当为true时，从queue名称与属性group的值相等的队列消费消息，如果不是则为destination.group。该属性还可以用在从已存在的queue消费消息。
-              prefetch: 1 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。
-              ttl: 100000 # 默认不做限制，即无限。消息在队列中最大的存活时间。当消息滞留超过ttl时，会被当成消费失败消息，即会被转发到死信队列或丢弃
-              txSize: 1 # 感觉像是批量确认的意思. 原文: The number of deliveries between acks.
-              declareExchange: true # 是否声明目标exchange。默认true
-              delayedExchange: false # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange
-              failedDeclarationRetryInterval: 5000 # 当queue不存在时，间隔多长时间会尝试从queue消费消息，即检测queue是否恢复。
-              headerPatterns: '*' # 默认：['*']。入站消息的hearders的匹配规则。是一个数组，
-              lazy: false # 是否声明为lazy queue。RabbitMQ从3.6.0版本开始引入了惰性队列（Lazy Queue）的概念。惰性队列会尽可能的将消息存入磁盘中，而在消费者消费到相应的消息时才会被加载到内存中，它的一个重要的设计目标是能够支持更长的队列，即支持更多的消息存储。当消费者由于各种各样的原因（比如消费者下线、宕机亦或者是由于维护而关闭等）而致使长时间内不能消费消息造成堆积时，惰性队列就很有必要了。
-              maxConcurrency: 3 # 默认：1。queue的消费者的最大数量。当前消费者数量不足以及时消费消息时, 会动态增加消费者数量, 直到到达最大数量, 即该配置的值.
-              maxLength: 10000 # queue中能同时存在的最大消息条数。当超过时，会被丢到死信队列。默认没有限制
-              maxLengthBytes: 100000000 # queue中能存放的消息的总占用空间，当超过时，会删除之前的消息。默认没有限制
-              maxPriority: 255 # queue中消息的最大优先级。优先级高的优先被消费。消息的优先级在消息发布的时候设置。默认不做设置
-              missingQueuesFatal: false # 暂时不知道用处，默认为false。官方文档介绍：If the queue cannot be found, treat the condition as fatal and stop the listener container. Defaults to false so that the container keeps trying to consume from the queue, for example when using a cluster and the node hosting a non HA queue is down.
-              queueDeclarationRetries: 3 # 发现缺少对应queue时尝试重连的次数。默认3。 The number of times to retry consuming from a queue if it is missing. Only relevant if missingQueuesFatal is true; otherwise the container keeps retrying indefinitely.
-              recoveryInterval: 5000 # 发现缺少对应queue时尝试重连的时间间隔，单位ms。默认5000
-              requeueRejected: false # 当禁用重试（maxAttempts=1）或republishToDlq为false时，消息消费时候后是否重新加入队列，即是否丢弃该消息。
+        default:
+          consumer:
+            prefix: '' # 定义queue和exchange时名称的前缀
+            # queue相关
+            acknowledgeMode: AUTO # 消息的确认模式。有：NONE, MANUAL, AUTO。默认是AUTO。这里的AUTO区别于RabbitMQ的auto_ack，AUTO会根据消息正常消费或抛异常自动选择ack/nack。而NONE才对应auto_ack，MANUAL则为手动确认。
+            bindQueue: true # 是否将queue绑定到目标exchange。默认true
+            durableSubscription: true # queue中的消息是否序列化。只有当设置了group属性才起作用。默认true。
+            exclusive: false # queue是否排外。当为true，有两个作用，一：当连接关闭时connection.close()该队列会自动删除；二：该队列是私有的private，即其它channel强制访问时会报错。
+            expires: 10000000 # 当queue空闲多长时间后会被删除。
+            bindingRoutingKey: '#' # 将queue绑定到exchange时使用的routing key。默认'#'
+            queueNameGroupOnly: false # 默认为false。当为true时，从queue名称与属性group的值相等的队列消费消息，如果不是则为destination.group。该属性还可以用在从已存在的queue消费消息。
+            prefetch: 1 # 限制consumer在消费消息时，一次能同时获取的消息数量，默认：1。
+            ttl: 100000 # 默认不做限制，即无限。消息在队列中最大的存活时间。当消息滞留超过ttl时，会被当成消费失败消息，即会被转发到死信队列或丢弃
+            txSize: 1 # 感觉像是批量确认的意思. 原文: The number of deliveries between acks.
+            declareExchange: true # 是否声明目标exchange。默认true
+            delayedExchange: false # 是否将目标exchange声明为一个延迟消息交换机，默认false。即消息productor发布消息到延迟exchange后，延迟n长时间后才将消息推送到指定的queue中。 -RabbitMQ需要安装/启用插件: rabbitmq-delayed-message-exchange
+            failedDeclarationRetryInterval: 5000 # 当queue不存在时，间隔多长时间会尝试从queue消费消息，即检测queue是否恢复。
+            headerPatterns: '*' # 默认：['*']。入站消息的hearders的匹配规则。是一个数组，
+            lazy: false # 是否声明为lazy queue。RabbitMQ从3.6.0版本开始引入了惰性队列（Lazy Queue）的概念。惰性队列会尽可能的将消息存入磁盘中，而在消费者消费到相应的消息时才会被加载到内存中，它的一个重要的设计目标是能够支持更长的队列，即支持更多的消息存储。当消费者由于各种各样的原因（比如消费者下线、宕机亦或者是由于维护而关闭等）而致使长时间内不能消费消息造成堆积时，惰性队列就很有必要了。
+            maxConcurrency: 3 # 默认：1。queue的消费者的最大数量。当前消费者数量不足以及时消费消息时, 会动态增加消费者数量, 直到到达最大数量, 即该配置的值.
+            maxLength: 10000 # queue中能同时存在的最大消息条数。当超过时，会被丢到死信队列。默认没有限制
+            maxLengthBytes: 100000000 # queue中能存放的消息的总占用空间，当超过时，会删除之前的消息。默认没有限制
+            maxPriority: 255 # queue中消息的最大优先级。优先级高的优先被消费。消息的优先级在消息发布的时候设置。默认不做设置
+            missingQueuesFatal: false # 暂时不知道用处，默认为false。官方文档介绍：If the queue cannot be found, treat the condition as fatal and stop the listener container. Defaults to false so that the container keeps trying to consume from the queue, for example when using a cluster and the node hosting a non HA queue is down.
+            queueDeclarationRetries: 3 # 发现缺少对应queue时尝试重连的次数。默认3。 The number of times to retry consuming from a queue if it is missing. Only relevant if missingQueuesFatal is true; otherwise the container keeps retrying indefinitely.
+            recoveryInterval: 5000 # 发现缺少对应queue时尝试重连的时间间隔，单位ms。默认5000
+            requeueRejected: false # 当禁用重试（maxAttempts=1）或republishToDlq为false时，消息消费时候后是否重新加入队列，即是否丢弃该消息。
 
-              # exchange相关
-              exchangeAutoDelete: true # exchange是否自动删除（当最后一个队列移除后，exchange自动删除）。默认true。
-              exchangeDurable: true # exchange是否序列化，broker重启后是否还存在。默认true。当declareExchange为true时有作用.
-              exchangeType: topic # exchange的类型。默认为topic。exchange的类型。org.springframework.amqp.core.ExchangeTypes，包括：topic(默认)、direct、headers、fanout、system
+            # exchange相关
+            exchangeAutoDelete: true # exchange是否自动删除（当最后一个队列移除后，exchange自动删除）。默认true。
+            exchangeDurable: true # exchange是否序列化，broker重启后是否还存在。默认true。当declareExchange为true时有作用.
+            exchangeType: topic # exchange的类型。默认为topic。exchange的类型。org.springframework.amqp.core.ExchangeTypes，包括：topic(默认)、direct、headers、fanout、system
 
-              # DLQ相关
-              autoBindDlq: true # 是否自动声明死信队列（DLQ）并将其绑定到死信交换机（DLX）。默认是false。
-              deadLetterQueueName: 'packetUplinkTopic.scas-data-collection.dlq' # 默认prefix + destination + group + .dlq。DLQ的名称。
-              deadLetterExchange: 'DLX' # 默认prefix + DLX。DLX的名称
-              deadLetterRoutingKey: 'packetUplinkTopic.scas-data-collection' # 默认destination + group
-              dlqExpires: 100000 # 默认不设置
-              dlqLazy: false # 默认false
-              dlqMaxLength: 100000 # 默认不限制
-              dlqMaxLengthBytes: 100000000 # 默认不限制
-              dlqMaxPriority: 255 # 默认不设置
-              dlqTtl: 1000000 # 默认不限制
-              republishToDlq: false # 默认false。如果定义了DLQ，当消费失败的消息重试次数耗尽后，会将消息路由到该DLQ。当为true时，死信队列接收到的消息的headers会更加丰富，多了异常信息和堆栈跟踪。
-              republishDeliveryMode: DeliveryMode.PERSISTENT # 默认DeliveryMode.PERSISTENT（持久化）。当republishToDlq为true时，转发的消息的delivery mode
+            # DLQ相关
+            autoBindDlq: true # 是否自动声明死信队列（DLQ）并将其绑定到死信交换机（DLX）。默认是false。
+            deadLetterQueueName: 'packetUplinkTopic.scas-data-collection.dlq' # 默认prefix + destination + group + .dlq。DLQ的名称。
+            deadLetterExchange: 'DLX' # 默认prefix + DLX。DLX的名称
+            deadLetterRoutingKey: 'packetUplinkTopic.scas-data-collection' # 默认destination + group
+            dlqExpires: 100000 # 默认不设置
+            dlqLazy: false # 默认false
+            dlqMaxLength: 100000 # 默认不限制
+            dlqMaxLengthBytes: 100000000 # 默认不限制
+            dlqMaxPriority: 255 # 默认不设置
+            dlqTtl: 1000000 # 默认不限制
+            republishToDlq: false # 默认false。如果定义了DLQ，当消费失败的消息重试次数耗尽后，会将消息路由到该DLQ。当为true时，死信队列接收到的消息的headers会更加丰富，多了异常信息和堆栈跟踪。
+            republishDeliveryMode: DeliveryMode.PERSISTENT # 默认DeliveryMode.PERSISTENT（持久化）。当republishToDlq为true时，转发的消息的delivery mode
 
-              # 死信队列的死信队列相关，死信队列也是一个普通队列，所以也有消费失败的消息，所以死信队列的死信队列有存在的意义。不过DLQ的DLQ不会自动生成，也只能定义DLQ的DLX。
-              dlqDeadLetterExchange: 'DLX.DLX' # 默认none。DLQ的消息消费失败后转发到的exchange名称
-              dlqDeadLetterRoutingKey: 'packetUplinkTopic.scas-data-collection.dlq' # 默认none。
+            # 死信队列的死信队列相关，死信队列也是一个普通队列，所以也有消费失败的消息，所以死信队列的死信队列有存在的意义。不过DLQ的DLQ不会自动生成，也只能定义DLQ的DLX。
+            dlqDeadLetterExchange: 'DLX.DLX' # 默认none。DLQ的消息消费失败后转发到的exchange名称
+            dlqDeadLetterRoutingKey: 'packetUplinkTopic.scas-data-collection.dlq' # 默认none。
 

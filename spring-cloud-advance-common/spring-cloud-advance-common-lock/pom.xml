@@ -14,7 +14,7 @@
     <description>spring cloud advance common lock</description>
 
     <properties>
-        <redisson.version>3.10.6</redisson.version>
+        <redisson.version>3.22.0</redisson.version>
     </properties>
 
     <dependencies>
